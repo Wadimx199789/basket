@@ -5,8 +5,20 @@ import Product from '../Product/Product';
 import CartFooter from '../CartFooter/CartFooter';
 import data from "./../../data"
 
+
 function Cart() {
     const [cart,setCart] = React.useState(data);
+    const [total,setTotal] = React.useState({
+        count:cart.reduce((prev,curr)=>{return prev+curr.count},0),
+        price:cart.reduce((prev,curr)=>{return prev+curr.priceTotal},0),
+
+    });
+    React.useEffect(()=>{
+        setTotal({
+            count:cart.reduce((prev,curr)=>{return prev+curr.count},0),
+            price:cart.reduce((prev,curr)=>{return prev+curr.priceTotal},0),
+        })
+    },[cart])
     const deleteProduct =(id)=>{
         setCart(()=>[...cart].filter((product)=>{
             return id!==product.id
@@ -37,14 +49,27 @@ function Cart() {
             return product;
         }))
     }
+    const changeValue =(id,value) =>{
+        setCart(()=>[...cart].map((product)=>{
+            if(product.id===id){
+               return {
+                   ...product,
+                   count:value,
+                   priceTotal:value*product.price
+               }
+            }
+            return product;
+        }))
+
+    }
     const products = cart.map(product=>{
-        return <Product product={product} key={product.id} deleteProduct={deleteProduct} increase={increase} decrease={decrease}/>
+        return <Product product={product} key={product.id} deleteProduct={deleteProduct} increase={increase} decrease={decrease} changeValue={changeValue}/>
     })
     return (
         <div className="cart">
             <CartHeader />
             {products}
-            <CartFooter />
+            <CartFooter total={total} />
         </div>
     )
 }

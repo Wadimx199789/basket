@@ -2,7 +2,7 @@ import React from 'react';
 import "./style.scss";
 import ButtonDel from '../ButtonDel/ButtonDel';
 
-function Product({product,deleteProduct,increase,decrease}) {
+function Product({product,deleteProduct,increase,decrease,changeValue}) {
     const {img,priceTotal,count,title,id} = product;
     return (
         <div className="cart__product">
@@ -12,7 +12,7 @@ function Product({product,deleteProduct,increase,decrease}) {
             <div className="cart__product-title">{title}
             </div>
             <div className="cart__product-count">
-                <input type="number" className="cart__product-input" min="1" max="100" value={count} />
+                <input type="number" className="cart__product-input" min="1" max="100" value={count} onChange={(e)=>{changeValue(id,e.target.value)}} />
                 <div className="cart__product-controls">
                     <button type="button" className="cart__product-up" onClick={()=>increase(id)}>
                         <img src="./up.svg" alt="up" />
