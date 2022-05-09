@@ -2,8 +2,8 @@ import React from 'react';
 import "./style.scss";
 import ButtonDel from '../ButtonDel/ButtonDel';
 
-function Product({product,deleteProduct}) {
-    const {img,price,count,title,id} = product;
+function Product({product,deleteProduct,increase,decrease}) {
+    const {img,priceTotal,count,title,id} = product;
     return (
         <div className="cart__product">
             <div className="cart__product-img">
@@ -14,15 +14,15 @@ function Product({product,deleteProduct}) {
             <div className="cart__product-count">
                 <input type="number" className="cart__product-input" min="1" max="100" value={count} />
                 <div className="cart__product-controls">
-                    <button type="button" className="cart__product-up">
+                    <button type="button" className="cart__product-up" onClick={()=>increase(id)}>
                         <img src="./up.svg" alt="up" />
                     </button>
-                    <button type="button" className="cart__product-down">
+                    <button type="button" className="cart__product-down" onClick={()=>decrease(id)}>
                         <img src="./down.svg" alt="down" />
                     </button>
                 </div>
             </div>
-            <div className="cart__product-price">{price} руб.</div>
+            <div className="cart__product-price">{priceTotal} руб.</div>
             <ButtonDel deleteProduct={deleteProduct} id={id}/>
         </div>
     )
